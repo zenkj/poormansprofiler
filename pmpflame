@@ -1,0 +1,16 @@
+#!/bin/bash
+nsamples=10
+sleeptime=3
+pid=`pidof $1` 
+flamegraph=`dirname $0`/flamegraph.pl
+
+for x in $(seq 1 $nsamples)
+  do
+    gdb -ex "set pagination 0" -ex "thread apply all bt" -batch -p $pid
+    sleep $sleeptime
+  done | \
+awk '
+  BEGIN { s = ""; } 
+  /^Thread/ { print s, 1; s = ""; } 
+  /^\#/ { $4 = $3 != "in" ? $2 : $4; if (s != "" ) { s = $4 ";" s} else { s = $4 } } 
+  END { print s, 1 }' | $flamegraph >$1-$pid.svg
