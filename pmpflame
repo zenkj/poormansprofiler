@@ -4,9 +4,12 @@ sleeptime=3
 pid=`pidof $1` 
 flamegraph=`dirname $0`/flamegraph.pl
 
+i=0
 for x in $(seq 1 $nsamples)
   do
-    gdb -ex "set pagination 0" -ex "thread apply all bt" -batch -p $pid
+    i=`expr $i + 1`
+    echo sampling $i... >/dev/stderr
+    gdb -ex "set pagination 0" -ex "thread apply all bt" -batch -p $pid 2>/dev/null
     sleep $sleeptime
   done | \
 awk '
