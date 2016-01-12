@@ -40,7 +40,7 @@ sampling 9...
 sampling 10...
 $ 
 ```
-68799 is the process id of java program. Only runnable threads are sampled, if all
+68799 is the process id of java program. Only runnable threads are sampled. If all
 java threads need to be sample, use jpmp -a 68799.
 
 ```
@@ -61,6 +61,7 @@ $
 A flame graph svg file named <my-program>-<pid>.svg is generated.
 
 
+```
 $ jpmpflame 68799
 sampling 1...
 sampling 2...
