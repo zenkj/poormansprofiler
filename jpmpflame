@@ -21,10 +21,11 @@ for x in $(seq 1 $nsamples)
     echo sampling $i... >/dev/stderr
     jstack $pid
     sleep $sleeptime
-  done | \
+  done |
 awk '
   BEGIN { s = ""; runnable=0; } 
   /^$/ { if (s != "") print s, 1; s = ""; runnable=0; }
   /java.lang.Thread.State: RUNNABLE/ { runnable=1; } 
   /^	at / { if ('$allthread' || runnable) { if (s != "") { s = $2 ";" s } else { s = $2 } } }
-  END { if (s != "") print s, 1 }' | $flamegraph >$pid.svg
+  END { if (s != "") print s, 1 }' |
+$flamegraph >$pid.svg

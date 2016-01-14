@@ -11,7 +11,7 @@ for x in $(seq 1 $nsamples)
     echo sampling $i... >/dev/stderr
     gdb -ex "set pagination 0" -ex "thread apply all bt" -batch -p $pid 2>/dev/null
     sleep $sleeptime
-  done | \
+  done | 
 awk '
   BEGIN { s = ""; } 
   /^Thread/ { print s, 1; s = ""; } 
