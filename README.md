@@ -8,6 +8,9 @@ frames of all java threads.
 pmpflame and jpmpflame use [Brendan Gregg's flamegraph](https://github.com/brendangregg/FlameGraph)
 to generate flamegraph for the stack sampling.
 
+For pmp and pmpflame, the program to profile should contain debug information
+(add -g option to gcc when compiling).
+
 ## Usage
 
 ```
