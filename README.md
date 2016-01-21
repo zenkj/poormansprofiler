@@ -1,6 +1,6 @@
 # poor man's profiler
 
-According to [PoorMan'sProfiler](http://poormansprofiler.org), pmp and it's
+According to [PoorMan's Profiler](http://poormansprofiler.org), pmp and it's
 java version, jpmp, are created. pmp relies on gdb to sample the stack frames
 of all threads, and jpmp relies on jstack from jdk to sample the java stack
 frames of all java threads.
