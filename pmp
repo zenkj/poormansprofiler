@@ -1,13 +1,20 @@
 #!/bin/bash
 nsamples=10
 sleeptime=3
-pid=`pidof $1` 
+if [ x$1 = 'x-p' ]; then
+    pid=$2
+else
+    pid=`pidof $1 | awk '{print $1}'` 
+fi
 
-i=0
+if [ x$pid = x ]; then
+    echo no program is specified.
+    exit 1
+fi
+
 for x in $(seq 1 $nsamples)
   do
-    i=`expr $i + 1`
-    echo sampling $i... >/dev/stderr
+    echo sampling $x... >/dev/stderr
     gdb -ex "set pagination 0" -ex "thread apply all bt" -batch -p $pid 2>/dev/null
     sleep $sleeptime
   done | 

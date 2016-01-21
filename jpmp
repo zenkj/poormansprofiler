@@ -3,7 +3,7 @@ nsamples=10
 sleeptime=3
 pid=$1 
 allthread=0
-if [ $pid = '-a' ]; then
+if [ x$1 = 'x-a' ]; then
   pid=$2
   allthread=1
 fi
@@ -12,11 +12,9 @@ if [ x$2 = 'x-a' ]; then
   allthread=1
 fi
 
-i=0
 for x in $(seq 1 $nsamples)
   do
-    i=`expr $i + 1`
-    echo sampling $i... >/dev/stderr
+    echo sampling $x... >/dev/stderr
     jstack $pid
     sleep $sleeptime
   done | 

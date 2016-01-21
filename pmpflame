@@ -1,14 +1,25 @@
 #!/bin/bash
 nsamples=10
 sleeptime=3
-pid=`pidof $1` 
+
+if [ x$1 = 'x-p' ]; then
+    pid=$2
+    prefix=''
+else
+    prefix="$1-"
+    pid=`pidof $1 | awk '{print $1}'` 
+fi
+
+if [ x$pid = x ]; then
+    echo no program is specified.
+    exit 1
+fi
+
 flamegraph=`dirname $0`/flamegraph.pl
 
-i=0
 for x in $(seq 1 $nsamples)
   do
-    i=`expr $i + 1`
-    echo sampling $i... >/dev/stderr
+    echo sampling $x... >/dev/stderr
     gdb -ex "set pagination 0" -ex "thread apply all bt" -batch -p $pid 2>/dev/null
     sleep $sleeptime
   done | 
@@ -16,4 +27,4 @@ awk '
   BEGIN { s = ""; } 
   /^Thread/ { print s, 1; s = ""; } 
   /^\#/ { $4 = $3 != "in" ? $2 : $4; if (s != "" ) { s = $4 ";" s} else { s = $4 } } 
-  END { print s, 1 }' | $flamegraph >$1-$pid.svg
+  END { print s, 1 }' | $flamegraph >${prefix}$pid.svg

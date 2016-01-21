@@ -14,11 +14,9 @@ fi
 
 flamegraph=`dirname $0`/flamegraph.pl
 
-i=0
 for x in $(seq 1 $nsamples)
   do
-    i=`expr $i + 1`
-    echo sampling $i... >/dev/stderr
+    echo sampling $x... >/dev/stderr
     jstack $pid
     sleep $sleeptime
   done |
